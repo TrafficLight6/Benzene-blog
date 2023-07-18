@@ -1,0 +1,299 @@
+# Benzenz-Blog后端Api及函数说明
+
+__函数文件sql.go路径：controller/sql.go，所有api返回格式均为json__
+
+- `signUp(username,password,email)`  
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码
+        - email： string，电子邮箱  
+    - 功能：  
+        - 描述：用户注册
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：POST
+            - URL: /add/signup
+            - 参数：
+                - username
+                - password
+                - email
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `addAllow(username,password)`  
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码  
+    - 功能：  
+        - 描述：以用户名和密码来检查用户是否有权限发表文章
+        - 函数返回：bool
+        - 是否为api：否
+----------
+- `postAllow(username,password)`
+    - __未实装评论功能__
+----------
+- `adminCheck(username,password)`  
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码  
+    - 功能：  
+        - 描述：以用户名和密码来检查用户是否为管理员
+        - 函数返回：bool
+        - 是否为api：是
+                - 请求细则：
+            - 方法：GET
+            - URL: /get/admincheck
+            - 参数：
+                - username
+                - password
+            - 返回文本实例：{'code':200,'massage':'admin'}
+----------
+- `adminCheckById(userid)`  
+    - 参数：  
+        - userid：int，用户id
+    - 功能：  
+        - 描述：以用户名和密码来检查用户是否为管理员
+        - 函数返回：bool
+        - 是否为api：否
+----------
+- `getUserId(username,password)`  
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码  
+    - 功能：  
+        - 描述：以用户名和密码来获取用户id
+        - 函数返回：bool
+        - 是否为api：否
+----------
+- `addPage(username,password,title,main)`  
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码
+        - title：string，文章标题
+        - main：string，文章主体
+    - 功能：  
+        - 描述：以用户名和密码来添加文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：POST
+            - URL: /add/page
+            - 参数：
+                - username
+                - password
+                - title
+                - main
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `getPagePorterId(pageid)`  
+    - 参数：  
+        - pageid：int，文章id
+    - 功能：  
+        - 描述：获取发文者id
+        - 函数返回：bool
+        - 是否为api：否
+----------
+- `delPage(username,password,pageid)`
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码
+        - pageid：int，文章id
+    - 功能：  
+        - 描述：以用户名和密码来删除文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：DELETE
+            - URL: /del/page
+            - 参数：
+                - username
+                - password
+                - page_id
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `editPage(username,password,pageid,main)`
+    - 参数：  
+        - username：string，用户名
+        - password： string，密码
+        - pageid：int，文章id
+        - main：string，文章主体
+    - 功能：  
+        - 描述：以用户名和密码来编辑文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：PUT
+            - URL: /edit/page
+            - 参数：
+                - username
+                - password
+                - page_id
+                - main
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `getUsername(userid)`
+    - 参数：  
+        - userid：int，用户id
+    - 功能：  
+        - 描述：以用户id获取用户名
+        - 函数返回：string
+        - 是否为api：是
+        - 请求细则：
+            - 方法：GET
+            - URL: /get/username
+            - 参数：
+                - id
+            - 返回文本实例：{'code':200,'massage':'用户名'}
+-----------
+- `getPageList(leastId,mostId)`
+    - 参数：  
+        - leastId：int，文章列表的最小Id且不包含该数
+        - mostId：int，文章列表的最大Id且不包含该数
+    - 功能：  
+        - 描述：以id获取文章列表
+        - 函数返回：string
+        - 是否为api：是
+        - 请求细则：
+            - 方法：GET
+            - URL: /get/pagejson
+            - 参数：
+                - id
+            - 返回文本实例：{'code':200,'massage':json_object}
+-----------
+- `getPage(pageid)`
+    - 参数：  
+        - pageid：int，文章id
+    - 功能：  
+        - 描述：以id获取文章的内容
+        - 函数返回：string
+        - 是否为api：是
+        - 请求细则：
+            - 方法：GET
+            - URL: /get/page
+            - 参数：
+                - id
+            - 返回文本实例：{'code':200,'massage':json_object}
+-----------
+- `createToken(username,password)`
+    - 参数：  
+        - username，string：用户名
+        - password，string：密码
+    - 功能：  
+        - 描述：创建token
+        - 函数返回：string
+        - 是否为api：是
+        - 请求细则：
+            - 方法：POST
+            - URL: add/token/createtoken
+            - 参数：
+                - username
+                - passwoed
+            - 返回文本实例：{'code':200,'massage':'token is a sha256 string'}
+-----------
+- `getUserIdByToken(token)`
+    - 参数：  
+        - toekn，string：用户token
+    - 功能：  
+        - 描述：检查用户token，返回用户id以及是否为管理员
+        - 函数返回：int
+        - 是否为api：否
+-----------
+- `checkToken(token)`
+    - 参数：  
+        - toekn，string：用户token
+    - 功能：  
+        - 描述：检查用户token并且返回token是否存在
+        - 函数返回：int，bool
+        - 是否为api：否
+-----------
+- `addAllowByToken(token)`
+    - 参数：  
+        - toekn，string：用户token
+    - 功能：  
+        - 描述：用token获取是否允许发布页面
+        - 函数返回：bool
+        - 是否为api：否
+-----------
+- `postAllowByToken(token)`
+    - 参数：  
+        - token，string：用户token
+    - 功能：  
+        - 描述：用token获取是否允许发布评论
+        - 函数返回：bool
+        - 是否为api：否
+-----------
+- `adminCheckByToken(token)`
+    - 参数：  
+        - token，string：用户token
+    - 功能：  
+        - 描述：用token获取用户是否为管理员
+        - 函数返回：bool
+        - 是否为api：否
+-----------
+- `addPageByToken(token,title,main)`
+    - 参数：  
+        - token，string：用户token
+        - title，string：文章标题
+        - main，string：文章主题
+    - 功能：  
+        - 描述：用token发布文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：POST
+            - URL: add/token/addpage
+            - 参数：
+                - token
+                - title
+                - main
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `delPageByToken(token,pageid)`
+    - 参数：  
+        - token，string：用户token
+        - pageid，int：文章id
+    - 功能：  
+        - 描述：用token删除文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：DELETE
+            - URL: del/token/page
+            - 参数：
+                - token
+                - page_id
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `editPageByToken(token,pageid,main)`
+    - 参数：  
+        - token，string：用户token
+        - pageid，int：文章id
+        - main，string：文章主体
+    - 功能：  
+        - 描述：用token编辑文章
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：PUT
+            - URL: edit/token/page
+            - 参数：
+                - token
+                - page_id
+                - main
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `delToken(token)`
+    - 参数：  
+        - token，string：用户token
+    - 功能：  
+        - 描述：销毁token
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：DELETE
+            - URL: del/token/deltoken
+            - 参数：
+                - token
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+
+更新于2023年7月18日11:36:31
