@@ -8,7 +8,7 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
         - password： string，密码
         - email： string，电子邮箱  
     - 功能：  
-        - 描述：用户注册
+        - 描述：用户注册，自动过滤重命名
         - 函数返回：bool
         - 是否为api：是
         - 请求细则：
@@ -295,5 +295,35 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
             - 参数：
                 - token
             - 返回文本实例：{'code':200,'massage':'successfully'}
-
+----------
+- `sendEmail(emailadd)`
+    - 参数：  
+        - emailadd，string：电子邮箱地址
+    - 功能：  
+        - 描述：发送验证码
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：POST
+            - URL: email/send
+            - 参数：
+                - email
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `SendEmail(emailadd,emailcode)`
+    - 参数：  
+        - emailadd，string：电子邮箱地址
+        - emailcode，int：验证码
+    - 功能：  
+        - 描述：检验验证码
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：GET
+            - URL: email/check
+            - 参数：
+                - email
+                - code
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
 更新于2023年7月18日11:36:31

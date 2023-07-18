@@ -46,6 +46,10 @@ func init() {
 }
 
 func signUp(username string, password string, email string) bool {
+	_, bools := getUserId(username, password)
+	if bools {
+		return false
+	}
 	hash := sha256.New()
 	hash.Write([]byte(password))
 	bytes := hash.Sum(nil)
