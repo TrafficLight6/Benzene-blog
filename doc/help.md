@@ -1,4 +1,4 @@
-# Benzenz-Blog后端Api及函数说明
+# Benzene-Blog后端Api及函数说明
 
 __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json__
 
