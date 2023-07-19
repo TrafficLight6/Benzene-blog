@@ -46,10 +46,10 @@ func sendEmail(emailadd string) bool {
 		return false
 	}
 	server := mail.NewSMTPClient()
-	server.Host = "smtp.126.com"
+	server.Host = "smtp.host.com"
 	server.Port = 25
-	server.Username = "TrafficLight6@126.com"
-	server.Password = "SUNFRNSQZFUAXKCK"
+	server.Username = "user@host.com"
+	server.Password = "pwd"
 	server.Encryption = mail.EncryptionTLS
 
 	smtpClient, err := server.Connect()
@@ -61,7 +61,7 @@ func sendEmail(emailadd string) bool {
 
 	// Create email
 	email := mail.NewMSG()
-	email.SetFrom("From Me <TrafficLight6@126.com>")
+	email.SetFrom("your name")
 	email.AddTo(emailadd)
 	email.SetSubject("Email Code")
 

@@ -19,11 +19,48 @@ __BY TrafficLight6__
         ```
         - 初始化MySQL
             打开controllers/sql.go，在31行：
-            ```golang
+            ```go
             database, err := sqlx.Open("mysql", "bloguser:blogpwd@tcp(127.0.0.1:3306)/blogdb")
             //                                  用户名    数据库密码     主机及其端口    数据库名称
             ```
             进入MySQL，把blogdb.sql导入
-        -运行main.go
+        - 配置邮箱验证进入controllers/email.go，从48行开始，注释处有*！*的需要修改：
+            ```go
+                server := mail.NewSMTPClient()
+                server.Host = "smtp.host.com"   //你的邮箱的smtp服务器地址*！*
+                server.Port = 114514    //你的邮箱的smtp服务器端口*！*
+                server.Username = "email add"   //你的邮箱*！*
+                server.Password = "smtp code"   //你的邮箱的smtp密码或授权码*！*
+                server.Encryption = mail.EncryptionTLS
+
+                smtpClient, err := server.Connect()
+                if err != nil {
+                    fmt.Println(err)
+                    conn.Rollback()
+                    return false
+                }
+
+                // Create email
+                email := mail.NewMSG()
+                email.SetFrom("")//你在邮件中的自称可自行修改
+                email.AddTo(emailadd)
+                email.SetSubject("Email Code")
+
+                htmlStr := "<h1>your code is " + strconv.Itoa(code) + "</h1>"//邮箱信息可自行修改
+                email.SetBody(mail.TextHTML, htmlStr) //发送html信息可自行修改
+                // Send email
+                err = email.Send(smtpClient)
+                if err != nil {
+                    fmt.Println(err)
+                    conn.Rollback()
+                    return false
+                }
+                conn.Commit()
+                return true
+            ```
+
+        - 禁用冗余服务
+            - 自行在router/router.go内将不需要的服务条目注释掉
+        - 运行main.go
 
 __具体的后端请求请在[这里](doc/help.md)中查看__
