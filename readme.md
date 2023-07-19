@@ -62,5 +62,6 @@ __BY TrafficLight6__
         - 禁用冗余服务
             - 自行在router/router.go内将不需要的服务条目注释掉
         - 运行main.go
+- 注意，用token验证身份（具体请参照doc/help.md）的需要在前端cookie储存返回的token
 
 __具体的后端请求请在[这里](doc/help.md)中查看__
