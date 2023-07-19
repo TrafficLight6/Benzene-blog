@@ -1,8 +1,20 @@
 ﻿# Host: 127.0.0.1  (Version: 5.7.26)
-# Date: 2023-07-16 12:12:42
+# Date: 2023-07-19 15:57:19
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
+
+#
+# Structure for table "blog_email_code"
+#
+
+DROP TABLE IF EXISTS `blog_email_code`;
+CREATE TABLE `blog_email_code` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `code` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "blog_page"
@@ -29,7 +41,7 @@ CREATE TABLE `blog_token` (
   `main_token` varchar(255) NOT NULL DEFAULT '',
   `time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "blog_user"
@@ -44,5 +56,6 @@ CREATE TABLE `blog_user` (
   `allowpost` varchar(255) NOT NULL DEFAULT 'true',
   `admin` varchar(255) NOT NULL DEFAULT 'false',
   `email` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
