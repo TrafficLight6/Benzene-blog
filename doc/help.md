@@ -157,7 +157,8 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
             - 方法：GET
             - URL: /get/pagejson
             - 参数：
-                - id
+                - least
+                - most
             - 返回文本实例：{'code':200,'massage':json_object}
 -----------
 - `getPage(pageid)`
