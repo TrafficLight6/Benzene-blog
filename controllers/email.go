@@ -15,6 +15,7 @@ type EmailCode struct {
 	Id    int    `db:"id"`
 	Email string `db:"email"`
 	Code  int    `db:"code"`
+	Time  int    `db:"time"`
 }
 
 type SendEmailController struct {
@@ -26,6 +27,17 @@ type EmailCheckController struct {
 }
 
 func sendEmail(emailadd string) bool {
+	var ec []EmailCode
+	sql := "SELECT id,email,code,time FROM blog_email_code WHERE email=? and time>?"
+	err := db.Select(&ec, sql, emailadd, time.Now().Unix()-60)
+	if err != nil {
+		fmt.Println("exec failed   :", err, "\n")
+		return false
+	}
+	if ec != nil {
+		fmt.Printf("email code busily\n")
+		return false
+	}
 	conn, err := db.Begin()
 	if err != nil {
 		fmt.Println("begin failed   :", err, "\n")
@@ -33,8 +45,9 @@ func sendEmail(emailadd string) bool {
 	}
 	rand.Seed(time.Now().UnixNano())
 	code := rand.Intn(89999) + 10000
-	sql := "INSERT INTO blog_email_code(id,email,code) VALUE (DEFAULT,?,?)"
-	r, err := db.Exec(sql, emailadd, code)
+	nowtime := time.Now().Unix()
+	sql = "INSERT INTO blog_email_code(id,email,code,time) VALUE (DEFAULT,?,?,?)"
+	r, err := db.Exec(sql, emailadd, code, nowtime)
 	if err != nil {
 		fmt.Println("exec failed   :", err, "\n")
 		return false
@@ -48,7 +61,7 @@ func sendEmail(emailadd string) bool {
 	server := mail.NewSMTPClient()
 	server.Host = "smtp.host.com"
 	server.Port = 25
-	server.Username = "user@host.com"
+	server.Username = "address@host.com"
 	server.Password = "pwd"
 	server.Encryption = mail.EncryptionTLS
 
@@ -80,7 +93,7 @@ func sendEmail(emailadd string) bool {
 
 func checkEmail(emailadd string, emailcode int) bool {
 	var ec []EmailCode
-	sql := "SELECT id,email,code FROM blog_email_code WHERE email=? AND code=? "
+	sql := "SELECT id,email,code,time FROM blog_email_code WHERE email=? AND code=? "
 	err := db.Select(&ec, sql, emailadd, emailcode)
 	if err != nil {
 		fmt.Println("exec failed   :", err, "\n")
@@ -89,20 +102,30 @@ func checkEmail(emailadd string, emailcode int) bool {
 	if ec == nil {
 		return false
 	}
+	conn, err := db.Begin()
+	if err != nil {
+		fmt.Println("begin failed   :", err, "\n")
+		return false
+	}
+	sql = "DELETE FROM blog_email_code WHERE email=? AND code=?"
+	res, err := db.Exec(sql, emailadd, emailcode)
+	if err != nil {
+		fmt.Println("exce failed   :", err, "\n")
+		conn.Rollback()
+		return false
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		fmt.Println("row failed   :", err, "\n")
+		conn.Rollback()
+		return false
+	}
 	return true
 }
 
 func (c *SendEmailController) Post() {
 	if sendEmail(c.GetString("email")) {
-		c.Ctx.WriteString("{'code':200,'massage':'successfully'}")
-	} else {
-		c.Ctx.WriteString("{'code':404,'massage':'faileds'}")
-	}
-}
-
-func (c *EmailCheckController) Get() {
-	code, err := c.GetInt("code")
-	if (checkEmail(c.GetString("email"), code)) && (err == nil) {
 		c.Ctx.WriteString("{'code':200,'massage':'successfully'}")
 	} else {
 		c.Ctx.WriteString("{'code':404,'massage':'faileds'}")

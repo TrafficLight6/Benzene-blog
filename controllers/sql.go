@@ -45,7 +45,10 @@ func init() {
 	db = database
 }
 
-func signUp(username string, password string, email string) bool {
+func signUp(username string, password string, email string, emailCode int) bool {
+	if checkEmail(email, emailCode) == false {
+		return false
+	}
 	_, bools := getUserId(username, password)
 	if bools {
 		return false
@@ -57,25 +60,58 @@ func signUp(username string, password string, email string) bool {
 
 	conn, err := db.Begin()
 	if err != nil {
-		fmt.Println("begin failed :", err)
+		fmt.Println("begin failed   :", err, "\n")
 		return false
 	}
 	sql := "INSERT INTO blog_user(id, username,password,allowadd,allowpost,admin,email) VALUES(DEFAULT,?,?,DEFAULT,DEFAULT,DEFAULT,?)"
 	r, err := db.Exec(sql, username, sum, email)
 	if err != nil {
-		fmt.Println("exec failed   :", err)
+		fmt.Println("exec failed   :", err, "\n")
 		conn.Rollback()
 		return false
 	}
 	_, err = r.LastInsertId()
 	if err != nil {
-		fmt.Println("exec failed   :", err)
+		fmt.Println("exec failed   :", err, "\n")
 		conn.Rollback()
 		return false
 	}
 	conn.Commit()
 	return true
 
+}
+
+func changePassword(username string, oldPassword string, newPassword string, email string, emailCode int) bool {
+	if checkEmail(email, emailCode) == false {
+		return false
+	}
+	userid, bools := getUserId(username, oldPassword)
+	if bools == false {
+		return false
+	}
+	conn, err := db.Begin()
+	if err != nil {
+		fmt.Println("begin failed   :", err, "\n")
+	}
+	hash := sha256.New()
+	hash.Write([]byte(newPassword))
+	bytes := hash.Sum(nil)
+	passwordHash := hex.EncodeToString(bytes)
+	sql := "UPDATE blog_user SET password=? WHERE id=?"
+	res, err := db.Exec(sql, passwordHash, userid)
+	if err != nil {
+		fmt.Println("exec failed   :", err, "\n")
+		conn.Rollback()
+		return false
+	}
+	//查询影响的行数，判断修改插入成功
+	_, err = res.RowsAffected()
+	if err != nil {
+		fmt.Println("rows failed   :", err, "\n")
+		conn.Rollback()
+	}
+	conn.Commit()
+	return true
 }
 
 func addAllow(username string, password string) bool {

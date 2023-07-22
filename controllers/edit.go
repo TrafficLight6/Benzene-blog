@@ -14,6 +14,10 @@ type EditPageByTokenController struct {
 	beego.Controller
 }
 
+type ChangePasswordController struct {
+	beego.Controller
+}
+
 func (c *EditPageController) Put() {
 	username := c.GetString("username")
 	password := c.GetString("password")
@@ -34,6 +38,19 @@ func (c *EditPageByTokenController) Put() {
 		c.Ctx.WriteString("{'code':200,'massage':'successfully'}")
 	} else {
 		fmt.Println(err, "\n")
+		c.Ctx.WriteString("{'code':401,'massage':'failed'}")
+	}
+}
+
+func (c *ChangePasswordController) Put() {
+	username := c.GetString("username")
+	oldPassword := c.GetString("oldpassword")
+	newPassword := c.GetString("newpassword")
+	emailAdd := c.GetString("email")
+	emailCode, _ := c.GetInt("emailcode")
+	if changePassword(username, oldPassword, newPassword, emailAdd, emailCode) {
+		c.Ctx.WriteString("{'code':200,'massage':'successfully'}")
+	} else {
 		c.Ctx.WriteString("{'code':401,'massage':'failed'}")
 	}
 }

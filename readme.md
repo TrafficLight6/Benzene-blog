@@ -12,7 +12,8 @@ __BY TrafficLight6__
     - 直接使用编译好的Windows/Linux可执行文件（不推荐，因为sql连接是在controllers/sql.go文件内的）
         ~~部署个蛋都编译好了~~
     - 使用源代码部署
-        - 安装go与mysSQL        - ~~安装依赖beego~~ 貌似不需要
+        - 安装go与mysSQL
+        - ~~安装依赖beego~~ 貌似不需要
         - 安装go第三方库
         ```
         go get go-blog-microserver
@@ -63,5 +64,13 @@ __BY TrafficLight6__
             - 自行在router/router.go内将不需要的服务条目注释掉
         - 运行main.go
 - 注意，用token验证身份（具体请参照doc/help.md）的需要在前端cookie储存返回的token
+
+## 跟新日志
+    - beta 0.1.0 2023年7月18日
+    - 第一个版本 
+    - beta 0.1.1 2023年7月22日
+        - 关闭了emailCheck函数的服务
+        - signup函数的服务现在要邮箱验证码
+        - 增加了修改密码服务
 
 __具体的后端请求请在[这里](doc/help.md)中查看__

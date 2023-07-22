@@ -20,7 +20,7 @@ func init() {
 	beego.Router("/get/username", &controllers.GetUsernameController{})
 	beego.Router("/get/pagejson", &controllers.GetPageListController{})
 	beego.Router("/get/page", &controllers.GetPageMainController{})
+	beego.Router("/edit/password", &controllers.ChangePasswordController{})
 
 	beego.Router("email/send", &controllers.SendEmailController{})
-	beego.Router("email/check", &controllers.EmailCheckController{})
 }

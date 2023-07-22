@@ -2,11 +2,12 @@
 
 __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json__
 
-- `signUp(username,password,email)`  
+- `signUp(username,password,email,emailcode)`  
     - 参数：  
         - username：string，用户名
         - password： string，密码
         - email： string，电子邮箱  
+        - emailcode：int，邮箱验证码
     - 功能：  
         - 描述：用户注册，自动过滤重命名
         - 函数返回：bool
@@ -18,6 +19,7 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
                 - username
                 - password
                 - email
+                - emailcode
             - 返回文本实例：{'code':200,'massage':'successfully'}
 -----------
 - `addAllow(username,password)`  
@@ -311,20 +313,35 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
                 - email
             - 返回文本实例：{'code':200,'massage':'successfully'}
 -----------
-- `SendEmail(emailadd,emailcode)`
+- `checkEmail(emailadd,emailcode)`
     - 参数：  
         - emailadd，string：电子邮箱地址
         - emailcode，int：验证码
     - 功能：  
         - 描述：检验验证码
         - 函数返回：bool
+        - 是否为api：否
+-----------
+- `changePassword(username,oldPassword,newPassword,email,emailCode)`
+    - 参数：  
+        - username，string：用户名
+        - oldPassword，string 旧密码
+        - newPassword，string 新密码
+        - email，string：电子邮箱地址
+        - emailCode，int：邮箱验证码
+    - 功能：  
+        - 描述：修改用户密码
+        - 函数返回：bool
         - 是否为api：是
         - 请求细则：
-            - 方法：GET
-            - URL: email/check
+            - 方法：PUT
+            - URL: edit/password
             - 参数：
+                - username
+                - oldPassword
+                - newPasswoed
                 - email
-                - code
+                - emailcode
             - 返回文本实例：{'code':200,'massage':'successfully'}
------------
-更新于2023年7月18日11:36:31
+
+更新于2023年7月22日22:47:05

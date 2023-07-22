@@ -59,8 +59,9 @@ func (c *AddPageByTokenController) Post() {
 func (c *SignUpController) Post() {
 	username := c.GetString("username")
 	password := c.GetString("password")
-	email := c.GetString("eamil")
-	if signUp(username, password, email) {
+	email := c.GetString("email")
+	code, _ := c.GetInt("emailcode")
+	if signUp(username, password, email, code) {
 		c.Ctx.WriteString("{'code':200,'massage':'successfully'}")
 	} else {
 		c.Ctx.WriteString("{'code':401,'massage':'failed'}")
