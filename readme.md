@@ -16,7 +16,7 @@ __BY TrafficLight6__
         - ~~安装依赖beego~~ 貌似不需要
         - 安装go第三方库
         ```
-        go get go-blog-microserver
+        go get benzene-blog
         ```
         - 初始化MySQL
             打开controllers/sql.go，在31行：
