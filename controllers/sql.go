@@ -114,6 +114,32 @@ func changePassword(username string, oldPassword string, newPassword string, ema
 	return true
 }
 
+func changeUsernameByToken(token string, newUsername string) bool {
+	id, _ := getUserIdByToken(token)
+	if id == -1 {
+		return false
+	}
+	conn, err := db.Begin()
+	if err != nil {
+		fmt.Println("begin failed   :", err, "\n")
+		return false
+	}
+	sql := "UPDATE blog_user SET username=? WHERE id=?"
+	res, err := db.Exec(sql, newUsername, id)
+	if err != nil {
+		fmt.Println("exec failed   :", err, "\n")
+		conn.Rollback()
+		return false
+	}
+	_, err = res.RowsAffected()
+	if err != nil {
+		fmt.Println("rows failed   :", err, "\n")
+		conn.Rollback()
+	}
+	conn.Commit()
+	return true
+}
+
 func addAllow(username string, password string) bool {
 	hash := sha256.New()
 	hash.Write([]byte(password))

@@ -65,12 +65,16 @@ __BY TrafficLight6__
         - 运行main.go
 - 注意，用token验证身份（具体请参照doc/help.md）的需要在前端cookie储存返回的token
 
-## 跟新日志
+## 更新日志
     - beta 0.1.0 2023年7月18日
     - 第一个版本 
     - beta 0.1.1 2023年7月22日
         - 关闭了emailCheck函数的服务
         - signup函数的服务现在要邮箱验证码
         - 增加了修改密码服务
+    - beta 0.1.2 2023年7月23日
+        - 增加了changePasswordByToken的服务
+        - 优化了controllers目录下的文件夹结构
+        - 修改了部分路由请求
 
 __具体的后端请求请在[这里](doc/help.md)中查看__

@@ -187,7 +187,7 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
         - 是否为api：是
         - 请求细则：
             - 方法：POST
-            - URL: add/token/createtoken
+            - URL: token/createtoken
             - 参数：
                 - username
                 - passwoed
@@ -294,7 +294,7 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
         - 是否为api：是
         - 请求细则：
             - 方法：DELETE
-            - URL: del/token/deltoken
+            - URL: token/deltoken
             - 参数：
                 - token
             - 返回文本实例：{'code':200,'massage':'successfully'}
@@ -335,13 +335,29 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
         - 是否为api：是
         - 请求细则：
             - 方法：PUT
-            - URL: edit/password
+            - URL: user/change/password
             - 参数：
                 - username
                 - oldPassword
                 - newPasswoed
                 - email
                 - emailcode
+            - 返回文本实例：{'code':200,'massage':'successfully'}
+-----------
+- `changeUsernameByToken(token,newUsername)`
+    - 参数：  
+        - token，string：用户token
+        - newUsername，string 新密码
+    - 功能：  
+        - 描述：使用token授权修改用户名
+        - 函数返回：bool
+        - 是否为api：是
+        - 请求细则：
+            - 方法：PUT
+            - URL: user/change/username
+            - 参数：
+                - token
+                - newusername
             - 返回文本实例：{'code':200,'massage':'successfully'}
 
 更新于2023年7月22日22:47:05
