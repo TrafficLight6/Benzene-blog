@@ -199,7 +199,14 @@ __函数文件sql.go路径：controller/sql.go，所有api返回格式均为json
     - 功能：  
         - 描述：检查用户token，返回用户id以及是否为管理员
         - 函数返回：int
-        - 是否为api：否
+        - 是否为api：是，但只会返回id
+        - 请求细则：
+            - 方法：GET
+            - URL: get/token/userid
+            - 参数：
+                - userid
+            - 返回文本实例：{'code':200,'massage':114514}
+
 -----------
 - `checkToken(token)`
     - 参数：  

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/astaxie/beego"
 )
@@ -19,6 +20,10 @@ type GetPageListController struct {
 }
 
 type GetPageMainController struct {
+	beego.Controller
+}
+
+type GetUserIdByTokenController struct {
 	beego.Controller
 }
 
@@ -80,4 +85,13 @@ func (c *GetPageMainController) Get() {
 		}
 	}
 	c.Ctx.WriteString(output)
+}
+
+func (c *GetUserIdByTokenController) Get() {
+	id, _ := getUserIdByToken(c.GetString("token"))
+	if id != -1 {
+		c.Ctx.WriteString("{'code':'200','massage':" + strconv.Itoa(id) + "}")
+	} else {
+		c.Ctx.WriteString("{'code':404,'massage':'failed'}")
+	}
 }

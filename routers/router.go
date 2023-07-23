@@ -18,6 +18,7 @@ func init() {
 	beego.Router("/get/username", &controllers.GetUsernameController{})
 	beego.Router("/get/pagejson", &controllers.GetPageListController{})
 	beego.Router("/get/page", &controllers.GetPageMainController{})
+	beego.Router("/get/token/userid", &controllers.GetUserIdByTokenController{})
 
 	beego.Router("email/send", &controllers.SendEmailController{})
 

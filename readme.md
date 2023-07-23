@@ -73,7 +73,7 @@ __BY TrafficLight6__
         - signup函数的服务现在要邮箱验证码
         - 增加了修改密码服务
     - beta 0.1.2 2023年7月23日
-        - 增加了changePasswordByToken的服务
+        - 增加了changePasswordByToken和getUserIdByToken的服务
         - 优化了controllers目录下的文件夹结构
         - 修改了部分路由请求
 
